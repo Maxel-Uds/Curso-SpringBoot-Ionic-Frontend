@@ -1,0 +1,7 @@
+{
+  "name": "Curso-Spring-Ionic-Frontend",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
