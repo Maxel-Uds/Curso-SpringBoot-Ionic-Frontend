@@ -3,7 +3,7 @@
 
   <img src="../assets/imgs/tela-inicial.png" alt="logo">
 
-  <form action="">
+  <form>
     <ion-item>
       <ion-label stacked>Email:</ion-label>
       <ion-input type="text"></ion-input>
@@ -14,7 +14,7 @@
       <ion-input type="password"></ion-input>
     </ion-item>
 
-    <button ion-button block>Entrar</button>
+    <button ion-button block (click)="login()">Entrar</button>
   </form>
 
   <button ion-button block outline>Registrar</button>
