@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { StorageService } from '../services/storage.service';
 import { AlertController } from 'ionic-angular';
 import { API_CONFIG } from '../config/api.config';
+import { FieldMessage } from '../models/fieldmessage';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -31,18 +32,26 @@ export class ErrorInterceptor implements HttpInterceptor {
             switch(errorObj.status) {
                 case 401: 
                     this.handle401();
-                    break;
+                break;
 
                 case 403:
                     this.handle403();
-                    break;
+                break;
+
+                case 422:
+                    this.handle422(errorObj);
+                break;
 
                 case 404:
                     errorObj.error = 'NOT FOUND';
                     errorObj.message = 'Endereço não encontrado: ' + errorObj.url.substring(API_CONFIG.baseUrl.length);
 
                     this.handleDefaultError(errorObj);
-                    break;
+                break;
+
+                default:
+                    this.handleDefaultError(errorObj);
+                break;
             }
 
             return Observable.throw(errorObj);
@@ -66,6 +75,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         alert.present();
     }
 
+    handle422(errorObj) {
+        let alert = this.alertCtrl.create({
+            title: 'Erro 422: Validação',
+            message: this.listErros(errorObj.errors),
+            enableBackdropDismiss: false,
+            buttons: [
+                {text: 'Ok'}
+            ]
+        });
+
+        alert.present();
+    }
+
     handleDefaultError(error) {
         let alert = this.alertCtrl.create({
             title: 'Erro ' + error.status + ': ' + error.error,
@@ -77,6 +99,15 @@ export class ErrorInterceptor implements HttpInterceptor {
         });
 
         alert.present();
+    }
+
+    listErros(messages: FieldMessage[]) : string {
+        let errors : string = '';
+        for (let i = 0; i < messages.length; i++) {
+            errors = errors + '<p><strong>' + messages[i].fieldName + '</strong>: ' + messages[i].message + '</p>'; 
+        }
+
+        return errors;
     }
 }
 export const ErrorInterceptorProvider = {
