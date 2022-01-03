@@ -30,8 +30,10 @@ export class CategoriasPage {
     .subscribe(response => this.items = response, error => {});
   }
 
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');
+  showProdutos(categoria_id: string) {
+    this.navCtrl.push('ProdutosPage', {
+      categoriaId: categoria_id
+    });
   }
 
 }
