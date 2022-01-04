@@ -37,7 +37,7 @@ export class ProdutosPage {
     });
   }
 
-  showDetails() {
-    this.navCtrl.push('ProdutoDetailPage');
+  showDetails(id: string) {
+    this.navCtrl.push('ProdutoDetailPage', {produto_id: id});
   }
 }
