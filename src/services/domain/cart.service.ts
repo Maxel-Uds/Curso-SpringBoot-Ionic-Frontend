@@ -29,7 +29,7 @@ export class CartService {
         let cart = this.getCart();
         let position = cart.items.findIndex(item => item.produto.id == produto.id);
 
-        if(position) {
+        if(position == -1) {
             cart.items.push({
                 quantidade: 1, 
                 produto: produto
@@ -39,4 +39,55 @@ export class CartService {
         this.storage.setCart(cart);
         return cart;
     }
+
+    removeProduto(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(item => item.produto.id == produto.id);
+
+        if(position != -1) {
+            cart.items.splice(position, 1);
+        }
+
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    increaseQuantity(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(item => item.produto.id == produto.id);
+
+        if(position != -1) {
+            cart.items[position].quantidade++;
+        }
+
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    decreaseQuantity(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(item => item.produto.id == produto.id);
+
+        if(position != -1) {
+            cart.items[position].quantidade--;
+            if(cart.items[position].quantidade < 1) {
+                cart = this.removeProduto(produto);
+            }
+        }
+
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    total() : number {
+        let total = 0;
+        let cart = this.getCart();
+
+        cart.items.forEach(item => {
+            total += item.produto.preco * item.quantidade;
+        });
+
+        return total;
+    }
+
 }
