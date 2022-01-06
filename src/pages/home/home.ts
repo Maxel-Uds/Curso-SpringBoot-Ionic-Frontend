@@ -47,6 +47,10 @@ export class HomePage {
 
   signup() {
     this.navCtrl.push('SignupPage');
-  } 
+  }
+  
+  forgotPass() {
+    this.navCtrl.push('FotgotPassPage');
+  }
   
 }

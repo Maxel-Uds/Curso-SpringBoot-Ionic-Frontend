@@ -49,4 +49,15 @@ export class ClienteService {
             }
         );
     }
+
+    newPasswordGenerate(email: string) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/forgot-pass`,
+            email,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+    }
 }
