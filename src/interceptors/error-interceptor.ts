@@ -28,30 +28,26 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             console.log('Erro detectado pelo interceptor: ')
             console.log(errorObj)
+            let errorStatus = errorObj.status;
+            let errorName = errorObj.name;
 
-            switch(errorObj.status) {
-                case 401: 
-                    this.handle401();
-                break;
+            if(errorStatus == 401) {
+                this.handle401();
+            } 
+            else if(errorStatus == 403) {
+                this.handle403();
+            }
+            else if(errorStatus == 422) {
+                this.handle422(errorObj);
+            }
+            else if(errorStatus == 404 && errorName == "HttpErrorResponse") {
+                errorObj.error = 'NOT FOUND';
+                errorObj.message = 'Endereço não encontrado: ' + errorObj.url.substring(API_CONFIG.baseUrl.length);
 
-                case 403:
-                    this.handle403();
-                break;
-
-                case 422:
-                    this.handle422(errorObj);
-                break;
-
-                case 404:
-                    errorObj.error = 'NOT FOUND';
-                    errorObj.message = 'Endereço não encontrado: ' + errorObj.url.substring(API_CONFIG.baseUrl.length);
-
-                    this.handleDefaultError(errorObj);
-                break;
-
-                default:
-                    this.handleDefaultError(errorObj);
-                break;
+                this.handleDefaultError(errorObj);
+            }
+            else {
+                this.handleDefaultError(errorObj);
             }
 
             return Observable.throw(errorObj);
