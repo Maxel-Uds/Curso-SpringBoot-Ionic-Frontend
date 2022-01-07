@@ -50,4 +50,15 @@ export class AuthService {
     logout() {
         this.storage.setLocalUser(null);
     }
+
+    changePassword(email: string, newPass: string) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/change-pass`,
+            { email: email, newPass: newPass },
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+    }
 }

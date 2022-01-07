@@ -84,4 +84,8 @@ export class ProfilePage {
   cancel() {
     this.picture = null;
   }
+
+  changePass() {
+    this.navCtrl.push('PasswordConfigurationPage');
+  }
 }
