@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ClienteService } from '../../services/domain/cliente.service';
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -16,14 +16,14 @@ export class FotgotPassPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public formBuilder: FormBuilder, 
-    public clienteService: ClienteService,
+    public authService: AuthService,
     public alertCtrl: AlertController
   ) {
     this.formGroup = this.formBuilder.group({email: ['', [Validators.required, Validators.email]]})
   }
 
   sedNewPasswordToEmail() {
-    this.clienteService.newPasswordGenerate(this.formGroup.value)
+    this.authService.newPasswordGenerate(this.formGroup.value)
     .subscribe(response => {
       this.showNewPassSendedOk();
     },
