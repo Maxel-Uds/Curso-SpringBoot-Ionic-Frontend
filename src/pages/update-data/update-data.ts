@@ -14,4 +14,8 @@ export class UpdateDataPage {
   changePass() {
     this.navCtrl.push('PasswordConfigurationPage');
   }
+
+  addressConfig() {
+    this.navCtrl.push('AddressConfigurationPage');
+  }
 }

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Atualizar endereços</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list *ngIf="createAdress == false">
+    <ion-list-header *ngIf="length != 0">
+      Endereços cadastrados
+    </ion-list-header>
+    <ion-list-header *ngIf="length == 0">
+      Não há endereços cadastrados
+    </ion-list-header>
+    <button ion-item *ngFor="let item of items" (click)="goUpdateAddress(item)">
+      <h2>{{item.logradouro}}, {{item.numero}}</h2>
+      <p>{{item.complemento}} {{item.bairro}}, CEP: {{item.cep}}</p>
+      <p>{{item.cidade.nome}}, {{item.cidade.estado.nome}}</p>
+    </button>
+  </ion-list>
+  <button ion-button block (click)="addAddress()" *ngIf="createAdress == false">Adicionar endereço</button>
+
+  <form [formGroup]="formGroup" (ngSubmit)="create(); $event.preventDefault()" *ngIf="createAdress">
+    <ion-item>
+      <ion-label stacked>Logradouro*</ion-label>
+      <ion-input formControlName="logradouro" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.logradouro.dirty && formGroup.controls.logradouro.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Número*</ion-label>
+      <ion-input formControlName="numero" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.numero.dirty && formGroup.controls.numero.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Complemento</ion-label>
+      <ion-input formControlName="complemento" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Bairro</ion-label>
+      <ion-input formControlName="bairro" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>CEP*</ion-label>
+      <ion-input formControlName="cep" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cep.dirty && formGroup.controls.cep.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Estado*</ion-label>
+      <ion-select formControlName="estadoId" (ionChange)="updateCidades()">
+        <ion-option *ngFor="let estado of estados; first as f" [value]="estado.id" [selected]="f">{{estado.nome}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Cidade*</ion-label>
+      <ion-select formControlName="cidadeId">
+        <ion-option *ngFor="let cidade of cidades" [value]="cidade.id">{{cidade.nome}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <button ion-button block type="submit" [disabled]="formGroup.invalid">Cadastrar novo endereço</button>
+  </form>
+</ion-content>
