@@ -18,26 +18,18 @@ export class ErrorInterceptor implements HttpInterceptor {
             let errorObj = error;
 
             if(errorObj.error) {
-                errorObj = errorObj.error;
-                
+                errorObj = errorObj.error;               
             }
 
             if(!errorObj.status) {
                 errorObj = JSON.parse(errorObj);
             }
 
-            let reqUrl = req.url.substring(API_CONFIG.baseUrl.length);
-            let email = this.storageService.getLocalUser().email;
             let errorStatus = errorObj.status;
             let errorName = errorObj.name;
 
-            if(errorStatus == 401 && (reqUrl == "/auth/change-pass" || `/clientes/email?value=${email}`)) {
-                errorObj.message = 'Senha atual incorreta';
-
-                this.handleDefaultError(errorObj);
-            }
-            else if(errorStatus == 401) {
-                this.handle401();
+            if(errorStatus == 401) {
+                null;
             } 
             else if(errorStatus == 403) {
                 this.handle403();
@@ -61,19 +53,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handle403() {
         this.storage.setLocalUser(null);
-    }
-
-    handle401() {
-        let alert = this.alertCtrl.create({
-            title: 'Erro 401: Falha de Autenticação',
-            message: 'Email ou senha incorretos',
-            enableBackdropDismiss: false,
-            buttons: [
-                {text: 'ok'}
-            ]
-        });
-
-        alert.present();
     }
 
     handle422(errorObj) {

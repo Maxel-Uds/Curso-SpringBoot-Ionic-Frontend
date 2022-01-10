@@ -15,7 +15,7 @@ export class AccountDataConfigurationPage {
 
   formGroup: FormGroup;
   resp: Subscription;
-  tipo:boolean;
+  tipo: boolean;
 
   constructor(
     public navCtrl: NavController, 
@@ -52,7 +52,9 @@ export class AccountDataConfigurationPage {
     .subscribe(response => {
       this.update();
     },
-    error => {});
+    error => {
+      this.handle401();
+    });
   }
 
   private update() {
@@ -89,6 +91,19 @@ export class AccountDataConfigurationPage {
           }
         }
       ]
+    });
+
+    alert.present();
+  }
+
+  handle401() {
+    let alert = this.alertCtrl.create({
+        title: 'Erro 401: Falha de Autenticação',
+        message: 'Senha incorreta',
+        enableBackdropDismiss: false,
+        buttons: [
+            {text: 'ok'}
+        ]
     });
 
     alert.present();

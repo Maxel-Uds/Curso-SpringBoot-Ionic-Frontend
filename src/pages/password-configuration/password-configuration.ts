@@ -41,7 +41,9 @@ export class PasswordConfigurationPage {
     }).subscribe(reponse => {
       this.changePassword(this.email);
     },
-    error => {});
+    error => {
+      this.handle401();
+    });
   }
 
   notEqual() : boolean {
@@ -70,6 +72,19 @@ export class PasswordConfigurationPage {
           }
         }
       ]
+    });
+
+    alert.present();
+  }
+
+  handle401() {
+    let alert = this.alertCtrl.create({
+        title: 'Erro 401: Falha de Autenticação',
+        message: 'Senha atual incorreta',
+        enableBackdropDismiss: false,
+        buttons: [
+            {text: 'ok'}
+        ]
     });
 
     alert.present();
