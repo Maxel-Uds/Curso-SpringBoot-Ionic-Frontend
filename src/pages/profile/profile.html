@@ -39,4 +39,14 @@
       <button ion-button block (click)="updateData()">Atualizar dados</button>
     </ion-item>
   </ion-card>
+
+  <ion-card *ngIf="admin != -1">
+    <ion-card-header>
+      Alterar dados do sistema
+    </ion-card-header>
+
+    <ion-item>
+      <button ion-button block (click)="updateData()">Alterar dados do sistema</button>
+    </ion-item>
+  </ion-card>
 </ion-content>

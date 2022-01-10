@@ -15,6 +15,7 @@ export class ProfilePage {
   cliente: ClienteDTO;
   picture: string;
   cameraOn: boolean = false;
+  admin: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -34,6 +35,7 @@ export class ProfilePage {
       this.clienteService.findByEmail(localUser.email)
       .subscribe(response => {
         this.cliente = response as ClienteDTO;
+        this.admin = this.cliente.perfil.indexOf('ADMIN');
         this.getImageIfExists();
       },
       error => {

@@ -3,4 +3,5 @@ export interface ClienteDTO {
     nome: string;
     email: string;
     imageUrl?: string;
+    perfil: string[];
 }
