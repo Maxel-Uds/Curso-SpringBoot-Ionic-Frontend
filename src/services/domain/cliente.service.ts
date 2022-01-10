@@ -49,4 +49,15 @@ export class ClienteService {
             }
         );
     }
+
+    update(data, email) {
+       return this.http.put(
+                `${API_CONFIG.baseUrl}/clientes/email?value=${email}`,
+                data,
+                {
+                    observe: 'response',
+                    responseType: 'text'
+                }
+        );
+    }
 }

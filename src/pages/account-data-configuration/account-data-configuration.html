@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Atualizar Dados Cadastrais</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="formGroup" (ngSubmit)="autheticateUpdate(); $event.preventDefault()">
+    <ion-item>
+      <ion-label stacked>Nome*</ion-label>
+      <ion-input formControlName="nome" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.nome.dirty && formGroup.controls.nome.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Email*</ion-label>
+      <ion-input formControlName="email" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.email.dirty && formGroup.controls.email.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>CPF ou CNPJ</ion-label>
+      <ion-input formControlName="cpfOuCnpj" type="text" readonly="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Tipo</ion-label>
+      <ion-input formControlName="tipo" type="text" readonly="true"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cpfOuCnpj.dirty && formGroup.controls.cpfOuCnpj.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Telefone 1*</ion-label>
+      <ion-input formControlName="telefone1" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.telefone1.dirty && formGroup.controls.telefone1.errors" margin-left>Valor inválido</p>
+    <ion-item>
+      <ion-label stacked>Telefone 2</ion-label>
+      <ion-input formControlName="telefone2" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Telefone 3</ion-label>
+      <ion-input formControlName="telefone3" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Digite sua senha para confirmar as alterações</ion-label>
+      <ion-input formControlName="senha" type="password"></ion-input>
+    </ion-item> 
+    <button ion-button block type="submit" [disabled]="formGroup.invalid">Atualizar dados</button>
+  </form>
+</ion-content>
