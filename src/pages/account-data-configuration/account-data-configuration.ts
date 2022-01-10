@@ -15,6 +15,7 @@ export class AccountDataConfigurationPage {
 
   formGroup: FormGroup;
   resp: Subscription;
+  tipo:boolean;
 
   constructor(
     public navCtrl: NavController, 
@@ -27,12 +28,14 @@ export class AccountDataConfigurationPage {
   ) {
 
     this.resp = navParams.get('response');
-
+    this.tipo = this.resp['tipo'] == "PESSOAFISICA" ? true : false;
+    
     this.formGroup = this.formBuilder.group({
       nome: [this.resp['nome'], [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: [this.resp['email'], [Validators.required, Validators.email]],
-      tipo: [this.resp['tipo'], [Validators.required]],
-      cpfOuCnpj: [this.resp['cpfOuCnpj'], [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
+      fisica: ['Pessoa Física'],
+      juridica: ['Pessoa Jurídica'],
+      cpfOuCnpj: [this.resp['cpfOuCnpj']],
       telefone1: [this.resp['telefones'][0], [Validators.required]],
       telefone2: [this.resp['telefones'][1], []],
       telefone3: [this.resp['telefones'][2], []],

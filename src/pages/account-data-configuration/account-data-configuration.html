@@ -20,11 +20,14 @@
       <ion-label stacked>CPF ou CNPJ</ion-label>
       <ion-input formControlName="cpfOuCnpj" type="text" readonly="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="tipo">
       <ion-label stacked>Tipo</ion-label>
-      <ion-input formControlName="tipo" type="text" readonly="true"></ion-input>
+      <ion-input formControlName="fisica" type="text" readonly="true"></ion-input>
     </ion-item>
-    <p class="danger" *ngIf="formGroup.controls.cpfOuCnpj.dirty && formGroup.controls.cpfOuCnpj.errors" margin-left>Valor inválido</p>
+    <ion-item *ngIf="tipo == false">
+      <ion-label stacked>Tipo</ion-label>
+      <ion-input formControlName="juridica" type="text" readonly="true"></ion-input>
+    </ion-item>
     <ion-item>
       <ion-label stacked>Telefone 1*</ion-label>
       <ion-input formControlName="telefone1" type="text"></ion-input>
