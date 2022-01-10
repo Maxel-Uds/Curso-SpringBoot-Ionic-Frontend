@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             let errorStatus = errorObj.status;
             let errorName = errorObj.name;
 
-            if(errorStatus == 401 && reqUrl == "/auth/change-pass" || `/clientes/email?value=${email}`) {
+            if(errorStatus == 401 && (reqUrl == "/auth/change-pass" || `/clientes/email?value=${email}`)) {
                 errorObj.message = 'Senha atual incorreta';
 
                 this.handleDefaultError(errorObj);
