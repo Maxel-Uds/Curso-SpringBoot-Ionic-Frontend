@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { API_CONFIG } from '../../config/api.config';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
@@ -22,7 +22,8 @@ export class ProfilePage {
     public navParams: NavParams, 
     public storage: StorageService,
     public clienteService: ClienteService,
-    public camera: Camera
+    public camera: Camera,
+    public alertCtrl: AlertController
   ) {}
 
   ionViewDidLoad() {
@@ -89,5 +90,62 @@ export class ProfilePage {
 
   updateData() {
     this.navCtrl.push('UpdateDataPage');
+  }
+
+  findClient() {
+    let email = this.storage.getLocalUser().email;
+    this.clienteService.findByEmail(email)
+    .subscribe(response => {
+        let id = response['id'];
+        this.warning(id);
+    },
+    error => {});
+  }
+
+  private deleteAccount(id: string) {
+    this.clienteService.deleteAccount(id)
+    .subscribe(response => {
+      this.exclusionOk();
+    },
+    error => {});
+  }
+
+  warning(id: string) {
+    let alert = this.alertCtrl.create({
+      title: 'Cuidado!',
+      message: 'Você tem certeza que quer deletar a sua conta? <br>' + '<p><strong>Essa ação é irreversivel!</strong></p>'.fontcolor('red'),
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.deleteAccount(id);
+          }
+        },
+        {
+          text: 'Não',
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  exclusionOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Foi bom ter você por aqui!',
+      message: 'Sua conta foi excluída com sucesso.',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.setRoot('HomePage');
+          }
+        }
+      ]
+    });
+
+    alert.present();
   }
 }

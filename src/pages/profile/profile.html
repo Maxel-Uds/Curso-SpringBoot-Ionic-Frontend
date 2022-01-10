@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title>Profile</ion-title>
+    <ion-title>Perfil</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -47,6 +47,16 @@
 
     <ion-item>
       <button ion-button block (click)="updateData()">Alterar dados do sistema</button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Excluir conta
+    </ion-card-header>
+
+    <ion-item>
+      <button class="danger" ion-button block (click)="findClient()">Excluir</button>
     </ion-item>
   </ion-card>
 </ion-content>

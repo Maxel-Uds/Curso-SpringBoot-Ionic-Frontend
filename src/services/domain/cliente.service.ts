@@ -60,4 +60,14 @@ export class ClienteService {
                 }
         );
     }
+
+    deleteAccount(id: string) {
+        return this.http.delete(
+            `${API_CONFIG.baseUrl}/clientes/${id}`,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+    );
+    }
 }
