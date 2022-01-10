@@ -33,7 +33,6 @@ export class SignupPage {
       email: ['', [Validators.required, Validators.email]],
       tipo: ['', [Validators.required]],
       cpfOuCnpj: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
-      senha: ['', [Validators.required]],
       logradouro: ['', [Validators.required]],
       numero: ['', [Validators.required]],
       complemento: ['', []],
@@ -79,7 +78,7 @@ export class SignupPage {
   showInsertOk() {
     let alert = this.alertCtrl.create({
       title: 'Sucesso!',
-      message: 'Cadastro efetuado com sucesso',
+      message: 'Cadastro efetuado com sucesso!\nSua senha de acesso foi enviada para o email cadastrado.',
       enableBackdropDismiss: false,
       buttons: [
         {
