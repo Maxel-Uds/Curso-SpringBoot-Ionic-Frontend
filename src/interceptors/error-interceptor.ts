@@ -9,7 +9,7 @@ import { FieldMessage } from '../models/fieldmessage';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public storage: StorageService, public alertCtrl: AlertController) {
+    constructor(public storage: StorageService, public alertCtrl: AlertController, public storageService: StorageService) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -26,12 +26,17 @@ export class ErrorInterceptor implements HttpInterceptor {
                 errorObj = JSON.parse(errorObj);
             }
 
-            console.log('Erro detectado pelo interceptor: ')
-            console.log(errorObj)
+            let reqUrl = req.url.substring(API_CONFIG.baseUrl.length);
+            let email = this.storageService.getLocalUser().email;
             let errorStatus = errorObj.status;
             let errorName = errorObj.name;
 
-            if(errorStatus == 401) {
+            if(errorStatus == 401 && reqUrl == "/auth/change-pass" || `/clientes/email?value=${email}`) {
+                errorObj.message = 'Senha atual incorreta';
+
+                this.handleDefaultError(errorObj);
+            }
+            else if(errorStatus == 401) {
                 this.handle401();
             } 
             else if(errorStatus == 403) {
