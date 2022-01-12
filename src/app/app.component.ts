@@ -23,6 +23,7 @@ export class MyApp {
       { title: 'Categorias', component: 'CategoriasPage' },
       { title: 'Perfil', component: 'ProfilePage' },
       { title: 'Carrinho', component: 'CartPage' },
+      { title: 'Meus Pedidos', component: 'MyPurchasesPage' },
       { title: 'Logout', component: '' }
     ];
 

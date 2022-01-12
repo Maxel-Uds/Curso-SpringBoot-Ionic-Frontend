@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Meus Pedidos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list *ngIf="items && !pedido">
+    <ion-list-header class="font">
+      Pedidos
+    </ion-list-header>
+
+    <button ion-item *ngFor="let item of items" (click)="pedidoDetails(item.id)">
+      <h2 class="space">Data: {{item.instante}}</h2>
+      <p class="space">Valor Total: {{item.valorTotal | currency}}</p>
+      <p class="space" *ngIf="item.pagamento.estado == 'PENDENTE'">Pagamento: <span class="pending">{{item.pagamento.estado}}</span></p>
+      <p class="space" *ngIf="item.pagamento.estado == 'CANCELADO'">Pagamento: <span class="cancel">{{item.pagamento.estado}}</span></p>
+      <p class="space" *ngIf="item.pagamento.estado == 'QUITADO'">Pagamento: <span class="paid">{{item.pagamento.estado}}</span></p>
+    </button>
+  </ion-list>
+
+  <div *ngIf="pedido">
+    <ion-card>
+      <ion-card-header>
+        Data do Pedido: {{pedido.instante}}
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Itens do Pedido
+      </ion-card-header>
+
+      <ion-item *ngFor="let item of pedido.itens">
+        <h2>{{item.produto.nome}}</h2>
+        <p>Valor: {{item.produto.preco | currency}}</p>
+        <p>Desconto: {{item.desconto | currency}}</p>      
+        <p>Quantidade: {{item.quantidade}}</p>
+        <p class="space" style="font-weight: 700;">Subtotal: {{item.subTotal | currency}}</p>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Valor do Pedido
+      </ion-card-header>
+
+      <ion-item>
+        <h2>Total: {{pedido.valorTotal | currency}}</h2>
+      </ion-item>
+    </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          Pagamento
+        </ion-card-header>
+  
+        <ion-item>
+          <h2 >Tipo: {{tipo}} {{pedido.pagamento["@type"] === "pagamentoComBoleto" ? "Boleto" : "Cartão"}}</h2>
+          <p *ngIf="pedido.pagamento['@type'] === 'pagamentoComBoleto'">Data de vencimento: {{pedido.pagamento.dataVencimento}}</p>
+          <p *ngIf="pedido.pagamento['@type'] === 'pagamentoComCartao'">Parcelas: {{pedido.pagamento.numeroDeParcelas}}</p>
+          <p *ngIf="pedido.pagamento.estado == 'PENDENTE'">Status do pagamento: <span class="pending">{{pedido.pagamento.estado}}</span></p>
+          <p *ngIf="pedido.pagamento.estado == 'CANCELADO'">Status do pagamento: <span class="cancel">{{pedido.pagamento.estado}}</span></p>
+          <p *ngIf="pedido.pagamento.estado == 'QUITADO'">Status do pagamento: <span class="paid">{{pedido.pagamento.estado}}</span></p>
+        </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Dados de contato
+      </ion-card-header>
+
+      <ion-item>
+        <h2>{{pedido.dadosDoCliente.nome}}</h2>
+        <p>Email: {{pedido.dadosDoCliente.email}}</p>
+      </ion-item>
+
+      <ion-item>
+          <h2> Telefones:</h2>
+          <p style="padding-top: 10px;" *ngFor="let tel of pedido.dadosDoCliente.telefones">Tel: {{tel}}</p>
+      </ion-item>    
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Endereço de Entrega
+      </ion-card-header>
+
+      <ion-item>
+        <h2>Logradouro: {{pedido.enderecoDeEntrega.logradouro}}</h2>
+        <p>Número: {{pedido.enderecoDeEntrega.numero}}</p>  
+        <p>Bairro: {{pedido.enderecoDeEntrega.bairro}}</p>
+        <p *ngIf="pedido.enderecoDeEntrega.complemento">Complemento: {{pedido.enderecoDeEntrega.complemento}}</p>
+        <p>CEP: {{pedido.enderecoDeEntrega.cep}}</p>
+        <p>Cidade: {{pedido.enderecoDeEntrega.cidade.nome}}</p>
+        <p>Estado: {{pedido.enderecoDeEntrega.cidade.estado.nome}}</p>
+      </ion-item>
+      
+    </ion-card>
+
+    <button ion-button block (click)="back()">Voltar</button>
+  </div>
+</ion-content>

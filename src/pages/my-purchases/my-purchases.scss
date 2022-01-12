@@ -1,0 +1,25 @@
+page-my-purchases {
+    span {
+        font-weight: bold;
+    }
+
+    .font {
+        font-size: 20px;
+    }
+
+    .space {
+        padding-top: 5px;
+    }
+
+    .cancel {
+        color: red;
+    }
+
+    .pending {
+        color: #fdd700;
+    }
+
+    .paid {
+        color: green;
+    }
+}
