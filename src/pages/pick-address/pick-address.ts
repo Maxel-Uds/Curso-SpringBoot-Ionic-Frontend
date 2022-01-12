@@ -36,6 +36,7 @@ export class PickAddressPage {
         this.pedido = {
           cliente: { id: response['id'] },
           enderecoDeEntrega: null,
+          minutosUntilUtc: null,
           pagamento: null,
           itens: cart.items.map(item => { return { quantidade: item.quantidade, produto: { id: item.produto.id } } })
         }
