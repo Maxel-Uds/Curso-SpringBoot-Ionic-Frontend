@@ -19,7 +19,8 @@ export class OrderConfirmationPage {
   cartItems: CartItem[];
   cliente: ClienteDTO;
   endereco: EnderecoDTO;
-  instante: string;
+  instante: Date = new Date();
+  finishPurchase: boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -49,6 +50,8 @@ export class OrderConfirmationPage {
   }
 
   checkout() {
+    this.pedido.minutosUntilUtc = this.instante.getTimezoneOffset();
+
     this.pedidoService.insert(this.pedido)
     .subscribe(response => {
       let idPedido = this.extractId(response.headers.get('location'));
@@ -75,6 +78,7 @@ export class OrderConfirmationPage {
     this.pedidoService.findById(id)
     .subscribe(response => {
       this.instante = response['instante'];
+      this.finishPurchase = true;
     });
   }
 

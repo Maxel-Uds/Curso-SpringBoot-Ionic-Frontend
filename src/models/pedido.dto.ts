@@ -7,4 +7,5 @@ export interface PedidoDTO {
     enderecoDeEntrega: RefDTO;
     pagamento: PagamentoDTO;
     itens: ItemPedidoDTO[];
+    minutosUntilUtc: number;
 }

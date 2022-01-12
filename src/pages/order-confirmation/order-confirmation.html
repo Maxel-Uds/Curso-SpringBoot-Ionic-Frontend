@@ -10,7 +10,7 @@
 
 <ion-content padding>
 
-  <div *ngIf="!instante">
+  <div *ngIf="!finishPurchase">
     <ion-card>
       <ion-card-header>
         Itens do pedido
@@ -74,7 +74,7 @@
     <button ion-button block outline (click)="back()">Voltar</button>
   </div>
 
-  <div *ngIf="instante">
+  <div *ngIf="finishPurchase">
     <ion-card>
       <ion-card-header>
         Seu pedido foi registrado!
