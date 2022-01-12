@@ -19,4 +19,8 @@ export class PedidoService {
             }
         );
     }
+
+    findById(id: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/pedidos/${id}`);
+    }
 }
