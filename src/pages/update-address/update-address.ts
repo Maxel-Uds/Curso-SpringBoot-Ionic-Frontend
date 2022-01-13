@@ -93,7 +93,7 @@ export class UpdateAddressPage {
         {
           text: 'Ok',
           handler: () => {
-            this.navCtrl.setRoot('ProfilePage');
+            this.navCtrl.pop();
           }
         }
       ]
@@ -111,7 +111,7 @@ export class UpdateAddressPage {
         {
           text: 'Ok',
           handler: () => {
-            this.navCtrl.setRoot('ProfilePage');
+            this.navCtrl.pop();
           }
         }
       ]

@@ -103,6 +103,14 @@ export class AddressConfigurationPage {
     error => {});
   }
 
+  doRefresh(refresher) {
+    this.loadData();
+    
+    setTimeout(() => {
+      refresher.complete();    
+    }, 500);
+  }
+
   createOk() {
     let alert = this.alertCtrl.create({
       title: 'Sucesso!',

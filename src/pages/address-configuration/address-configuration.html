@@ -5,6 +5,10 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="createAdress == false">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list *ngIf="createAdress == false">
     <ion-list-header *ngIf="length != 0">
       Endereços cadastrados
