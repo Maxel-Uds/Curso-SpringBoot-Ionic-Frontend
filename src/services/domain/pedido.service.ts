@@ -27,4 +27,14 @@ export class PedidoService {
     getPageable() {
         return this.http.get(`${API_CONFIG.baseUrl}/pedidos`);
     }
+
+    cancel(id: string) {
+        return this.http.put(
+            `${API_CONFIG.baseUrl}/pedidos/cancel-order/${id}`,
+            {
+                observe: 'response',
+                responseType: 'text'
+            }
+        );
+    }
 }

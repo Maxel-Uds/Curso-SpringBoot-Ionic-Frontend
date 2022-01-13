@@ -102,5 +102,6 @@
     </ion-card>
 
     <button ion-button block (click)="back()">Voltar</button>
+    <button ion-button block (click)="warning(pedido.id)" *ngIf="pedido.pagamento.estado == 'PENDENTE'" class="danger">Cancelar pedido</button>
   </div>
 </ion-content>
