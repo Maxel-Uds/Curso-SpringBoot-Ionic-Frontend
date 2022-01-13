@@ -5,6 +5,7 @@ import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { StorageService } from '../../services/storage.service';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { AuthService } from '../../services/auth.service';
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -23,7 +24,8 @@ export class ProfilePage {
     public storage: StorageService,
     public clienteService: ClienteService,
     public camera: Camera,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public authService: AuthService
   ) {}
 
   ionViewDidLoad() {
@@ -102,6 +104,16 @@ export class ProfilePage {
     error => {});
   }
 
+  private authenticateUser(id: string, email: string, senha: string) {
+    this.authService.authenticate({ email: email, senha: senha })
+    .subscribe(response => {
+      this.deleteAccount(id);
+    },
+    error => {
+      this.handle401();
+    });
+  }
+
   private deleteAccount(id: string) {
     this.clienteService.deleteAccount(id)
     .subscribe(response => {
@@ -119,11 +131,43 @@ export class ProfilePage {
         {
           text: 'Sim',
           handler: () => {
-            this.deleteAccount(id);
+            this.auth(id)
           }
         },
         {
           text: 'Não',
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  auth(id: string) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmação de exclusão:',
+      message: 'Confirme sua identidade pra excluir a conta!',
+      enableBackdropDismiss: false,
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'email'
+        },
+        {
+          name: 'pass',
+          placeholder: 'senha',
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Confirmar',
+          handler: data => {
+            this.authenticateUser(id, data.email, data.pass);              
+          }
+        },
+        {
+          text: 'Cancelar',
         }
       ]
     });
@@ -144,6 +188,19 @@ export class ProfilePage {
           }
         }
       ]
+    });
+
+    alert.present();
+  }
+
+  handle401() {
+    let alert = this.alertCtrl.create({
+        title: 'Erro 401: Falha de Autenticação',
+        message: 'Senha ou email incorretos',
+        enableBackdropDismiss: false,
+        buttons: [
+            {text: 'ok'}
+        ]
     });
 
     alert.present();
