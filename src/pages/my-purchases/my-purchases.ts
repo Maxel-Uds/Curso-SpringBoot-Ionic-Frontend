@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoadingController } from 'ionic-angular';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ReceivePedido } from '../../models/receive-pedido.dto';
 import { PedidoService } from '../../services/domain/pedido.service';
@@ -10,14 +11,16 @@ import { PedidoService } from '../../services/domain/pedido.service';
 })
 export class MyPurchasesPage {
 
-  items: ReceivePedido[];
+  items: ReceivePedido[] = [];
   pedido: ReceivePedido;
+  page: number = 0;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public pedidoService: PedidoService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController
   ) {
   }
 
@@ -26,9 +29,12 @@ export class MyPurchasesPage {
   }
 
   load() {
-    this.pedidoService.getPageable()
+    let loader = this.presentLoanding();
+
+    this.pedidoService.getPageable(this.page, 10)
     .subscribe(response => {
-      this.items = response['content'] as ReceivePedido[];
+      this.items = this.items.concat(response['content']);
+      loader.dismiss()
     },
     error => {});
   }
@@ -51,6 +57,34 @@ export class MyPurchasesPage {
       this.cancelOk();
     },
     error => {})  
+  }
+
+  presentLoanding() {
+    let loader = this.loadingCtrl.create({
+      content: 'Aguarde...', 
+    });
+
+    loader.present();
+    return loader;
+  }
+
+  doRefresh(refresher) {
+    this.page = 0;
+    this.items = [];
+    this.load();
+    
+    setTimeout(() => {
+      refresher.complete();    
+    }, 500);
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.load();
+
+    setTimeout(() => {
+      infiniteScroll.complete();    
+    }, 500);
   }
 
   warning(id: string) {

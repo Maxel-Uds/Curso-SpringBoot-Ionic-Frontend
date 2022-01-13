@@ -24,8 +24,8 @@ export class PedidoService {
         return this.http.get(`${API_CONFIG.baseUrl}/pedidos/${id}`);
     }
 
-    getPageable() {
-        return this.http.get(`${API_CONFIG.baseUrl}/pedidos`);
+    getPageable(page: number = 0, linesPerPage: number = 24) {
+        return this.http.get(`${API_CONFIG.baseUrl}/pedidos?page=${page}&linesPerPage=${linesPerPage}`);
     }
 
     cancel(id: string) {

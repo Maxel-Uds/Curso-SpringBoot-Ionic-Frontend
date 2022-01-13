@@ -8,6 +8,10 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="items && !pedido">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list *ngIf="items && !pedido">
     <ion-list-header class="font">
       Pedidos
@@ -104,4 +108,8 @@
     <button ion-button block (click)="back()">Voltar</button>
     <button ion-button block (click)="warning(pedido.id)" *ngIf="pedido.pagamento.estado == 'PENDENTE'" class="danger">Cancelar pedido</button>
   </div>
+
+  <ion-infinite-scroll *ngIf="items && !pedido" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
